@@ -1,0 +1,78 @@
+
+import Darwin
+
+// Задание 1. Решить квадратное уравнение. ax^2 + bx + c = 0 Дискриминант D = b^2 - 4 ac, если D < 0 - нет корней, если D > 0 x1= (- b - sqrt(D))/2a или x2 =  (- b + sqrt(D))/2a,если D = 0 x = - b/2a
+func quadraticEqution(a : Double, b : Double, c : Double){
+    print("Задание 1. Решение квадратного уравнения:")
+    var D = b * b - 4 * a * c
+    if D < 0{
+        print("Нет корней уравнения")
+    } else if D > 0{
+        var x1 = ((-b - sqrt(D)) / 2 * a)
+        var x2 = ((-b + sqrt(D)) / 2 * a)
+        print("Корней уравнения 2: X1 = \(x1), X2 = \(x2)")
+    } else if D == 0 {
+        var x = -(b / 2 * a)
+        print("Корень уравнения равен х = \(x)")
+    }
+}
+quadraticEqution(a: 2, b: 4, c: 2)
+
+// Задание 2. Даны катеты прямоугольного треугольника. Найти площадь, периметр и гипотенузу треугольника.
+// Формула площади: S = 1/2 * a * b, формула a * a + b * b = c * c, с = sqrt(), формула перимметра треугольника L = a + b + c
+// a, b - катеты треугольника, с - гипотенуза треугольника
+// расчёт площади треугольника
+
+print("Задание 2. Прямоугольный треугольник")
+func triangleSquare(a : Double, b : Double) {
+    var S = 1 / 2 * a * b
+    print("Площадь треугольника равна: \(S)")
+}
+triangleSquare(a: 3, b: 5) // выполнение функции расчёта площади
+
+// расчёт периметра треугольника
+func triaglePerimetr(a : Double, b : Double, c : Double ) {
+    var length = a + b + c
+    print("Периметр треугольника равен: \(length)")
+}
+triaglePerimetr(a: 3, b: 5, c: 4.5)
+
+// расчёт длины гипотенузы
+func hypotenuse(a : Double, b : Double) {
+    var c = sqrt((a * a + b * b)).rounded()
+    print("Длина гипотенузы равна: \(c)")
+}
+hypotenuse(a: 10, b: 13)
+
+
+// Задание 3. Пользователь вводит сумму вклада в банк и годовой процент.Найти сумму вклада через 5 лет. вводим переменную суммы вклада, вводим переменную процентов, подсчитываем при помощи цикла проценты за 5 лет без капитализации и с капитализацией  
+print("Задание 3. Расчет процентов по вкладу")
+func withCapitalisation(startSum : Double, percentPerYear : Double) {
+    print("Расчет размера вклада с капитализацией процентов")
+    var year = 1
+    var depoAmount = startSum
+    for i in 1 ... 5 {
+        depoAmount = (depoAmount * percentPerYear / 100 + depoAmount).rounded()
+        print("Период использования лет: \(year) размер депозита:\(depoAmount)")
+        year = year + 1
+    }
+}
+withCapitalisation(startSum: 100, percentPerYear: 10) // выполнение функции
+
+func simplePercent(startSum1 : Double, percentPerYear1 : Double) {
+    print("Расчет размера вклада без капитализации процентов")
+    var year = 1
+    var depoAmount1 = startSum1
+    for i in 1 ... 5 {
+        depoAmount1 = startSum1 * percentPerYear1 / 100 + depoAmount1
+        print("Период использования лет: \(year) размер депозита:\(depoAmount1)")
+        year = year + 1
+    }
+}
+simplePercent(startSum1: 100, percentPerYear1: 10) // выполнение функции
+
+
+
+
+
+

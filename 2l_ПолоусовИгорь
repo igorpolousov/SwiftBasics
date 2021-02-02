@@ -1,0 +1,104 @@
+import Foundation
+// Задание 1. Написать функцию, котороая определяет четное число или нет.
+func evenNumber(_ number: Int){
+    print("Веденное число = \(number)")
+    var evenNumber = number % 2
+    if evenNumber  == 0 {
+        print("Введенное число чётное")
+    }else{
+        print("Введенное число нёчетное")
+    }
+}
+print("Задание 1. Функция определяет чётное число или нет")
+evenNumber(2) // Проверка работы функции
+evenNumber(3)
+
+//Задание 2. Написать функцию, которая определяет, делится ли число без остатка на 3
+func triNumber(_ number: Int){
+    print("Веденное число = \(number)")
+    var triNumber = number % 3
+    if triNumber  == 0 {
+        print("Введенное число делится без остатка на 3")
+    }else{
+        print("Введенное число не делится без остатка на 3")
+    }
+}
+print("Задание 2. Функция определяет делится ли число на 3 без остатка или нет")
+triNumber(12) // проверка работы функции
+triNumber(10)
+
+// Задание 3. Создать возрастающий массив из 100 чисел. Для создания массива будут взяты целые числа
+func risingArray() -> [Int]{
+    var array : [Int] = []
+    for i in 1 ... 100 {
+        array.append(i)
+    }
+    return array
+} 
+print("Задание 3. Функция создаёт возрастающий массив из 100 чисел и возвращает массив:")
+risingArray() //проверка работы функции
+print(risingArray())
+
+// Задание 4. Удалить из этого массива все четные числа и все числа, которые не делятся на 3
+func deletingNumbers(){
+    var array = risingArray()
+    for i in array where i % 2 == 0 {
+        guard var del = array.index(of: i) else { return }  
+        array.remove(at: del)
+    }
+    for i in array where i % 3 !=  0 {
+        guard var del = array.index(of: i) else { return }
+        array.remove(at: del)
+    }
+    print(array)
+}
+print("Задание 4. Из массива удалены все четные числа и все числа, которые не делятся на 3 без остатка:")
+deletingNumbers() // проверка исполнения функции
+
+// Задание 5. Написать функцию которая добавляет в массив новое число Фибоначчи, и добавить при помощи нее 50 эдементов Fn = Fn1 + Fn2
+func fibonachiArray(_ a:Int){
+    var array : [Int] = []
+    var Fn1 = 0
+    var Fn2 = 1
+    for i in 1 ... a {
+        var Fn = Fn1 + Fn2
+        array.append(Fn)
+        Fn1 = Fn2
+        Fn2 = Fn
+    }
+    print(array)
+}
+print("Задание 5. Функция создаёт массив чисел Фибоначчи длиной a чисел")
+fibonachiArray(50) // проверка исполнения функции
+
+/* Задание 6. Заполнить массив из 100 элементов различными простыми числами. Натуральное число, большее единицы, называется простым, если оно делится только на себя или на 1. Для нахождения всех простых чисел не больше заданного числа n, следуя методу Эратосфена, нужно выполнить следующие шаги:
+
+a. Выписать подряд все целые числа от двух до n (2, 3, 4, ..., n).
+b. Пусть переменная p изначально равна двум — первому простому числу.
+c. Зачеркнуть в списке числа от 2 + p до n, считая шагом p..
+d. Найти первое не зачёркнутое число в списке, большее, чем p, и присвоить значению переменной p это число.
+e. Повторять шаги c и d, пока возможно.
+ */
+func task6(_ n: Int){
+    var array : [Int] = []
+    for i in 1 ... n {
+        array.append(i)
+    }
+    var i = 2 
+    for var i in array{ 
+        var p = array[i] 
+        var step = array[i]
+        for p in array where p % step == 0 && p > step {
+            guard var del = array.index(of: p) else { return }  
+            array.remove(at: del)
+        }
+        i += 1
+        p = array[i]
+        if p > array.count{
+            break
+        }
+    }
+    print(array)
+}
+print("Задание 6. Функция создаёт массив простых чисел по возрастанию с длиной n чисел")
+task6(500)

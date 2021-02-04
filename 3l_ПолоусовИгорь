@@ -1,0 +1,211 @@
+/*
+1. Описать несколько структур – любой легковой автомобиль SportCar и любой грузовик TrunkCar.
+ 
+2. Структуры должны содержать марку авто, год выпуска, объем багажника/кузова, запущен ли двигатель, открыты ли окна, заполненный объем багажника.
+ 
+3. Описать перечисление с возможными действиями с автомобилем: 1.запустить/заглушить двигатель, 2.открыть/закрыть окна, 3.погрузить/выгрузить из кузова/багажника груз определенного объема.
+ 
+4. Добавить в структуры метод с одним аргументом типа перечисления, который будет менять свойства структуры в зависимости от действия.
+ 
+5. Инициализировать несколько экземпляров структур. Применить к ним различные действия.
+6. Вывести значения свойств экземпляров в консоль.
+ */
+import Foundation
+// перечисления с возможными действиями
+// статус окон
+enum WindowsState: String {
+    case opened = "Окна открыты"
+    case closed = "Окна закрыты"
+}
+// статус двигателя
+enum EngineState : String {
+    case started = "Двигатель запущен"
+    case stopped = "Двигатель остановлен"
+}
+// размер багажника
+enum TrunkVolume: String {
+    case big = "Большой багажник"
+    case small = "Маленький багажник"
+}
+
+// свободное место в багажнике(заполненный объём багажника)
+enum TruncFreeSpace : String {
+    case empty = "Багажник пустой"
+    case halffilled = "Багажник заполнен на половину"
+    case full = "Багажник заполнен полностью"
+}
+
+// марка автомобиля 
+enum CarBrend : String{
+    case Ford = "Ford"
+    case Volvo = "Volvo"
+    case Chevrolet = "Chevrolet"
+}
+// перечисление для метода освобождение места в багажнике. Задание 4
+enum EmptySpace {
+    case emptying
+    case halfemptying
+    case putting
+}
+// структуры
+// структура SportCar
+struct SportCar {
+    let carBrend : CarBrend
+    let productionYear : Int
+    let trunkVolume : TrunkVolume
+    var engineState : EngineState
+    var trunkFreeSpace : TruncFreeSpace
+    // метод с одним аргументом типа перечисление, который меняет свойства структуры
+    mutating func emptySpace (_ done:EmptySpace){ 
+    switch done{ 
+    case .emptying:
+        trunkFreeSpace = TruncFreeSpace.empty
+        print("Место в багажнике освобождено")
+    case .putting:
+        trunkFreeSpace = TruncFreeSpace.full
+        print("Место в багажнике полностью заполнено")
+    case.halfemptying:
+        trunkFreeSpace = TruncFreeSpace.halffilled
+        print("Место в багажнике свободно на половину")
+        }
+    }
+    mutating func starEngine() {
+        engineState = .started
+    }
+    mutating func stopEngine() {
+        engineState = .stopped
+    }
+    var windowsState : WindowsState
+    mutating func closeWindow() {
+        windowsState = .closed
+    }
+    mutating func openWindow() {
+        windowsState = .opened
+    }
+    var km :Double{
+        willSet {
+            print("Будет установлено новое значение км \(newValue)")
+        }
+        didSet {
+            if km > oldValue{ 
+                print("Пробег автомобиля увеличился на: \(km - oldValue) километров")
+            }
+        }
+    }
+    func printCarStates(){
+        print("\nХарактеристики автомобиля SportCar:  \nМарка автомобиля: \(carBrend) \nГод производства: \(productionYear) \nСвободное место в багажнике: \(trunkFreeSpace) \nОбъём багажника: \(trunkVolume)\nСтатус двигателя: \(engineState) \nСтатус окон: \(windowsState) \nПробег километров: \(km)")
+    }
+}
+// структура TrunkCar
+struct TrunckCar {
+    let carBrend : CarBrend
+    let productionYear : Int
+    let trunkVolume : TrunkVolume
+    var engineState : EngineState
+    var trunkFreeSpace : TruncFreeSpace
+    mutating func emptySpace (_ done:EmptySpace){ 
+        switch done{ 
+        case .emptying:
+            trunkFreeSpace = TruncFreeSpace.empty
+            print("Место в багажнике освобождено")
+        case .putting:
+            trunkFreeSpace = TruncFreeSpace.full
+            print("Место в багажнике полностью заполнено")
+        case.halfemptying:
+            trunkFreeSpace = TruncFreeSpace.halffilled
+            print("Место в багажнике свободно на половину")
+        }
+    }
+    mutating func starEngine() {
+        engineState = .started
+    }
+    mutating func stopEngine() {
+        engineState = .stopped
+    }
+    var windowsState : WindowsState
+    mutating func closeWindow() {
+        windowsState = .closed
+    }
+    mutating func openWindow() {
+        windowsState = .opened
+    }
+    var km :Double{
+        willSet {
+            print("Будет установлено новое значение км \(newValue)")
+        }
+        didSet {
+            if km > oldValue{ 
+                print("Пробег автомобиля увеличился \(km - oldValue) километров")
+            }
+        }
+    }
+    func printCarStates(){
+        print("\nХарактеристики автомобиля TrunkCar:  \nМарка автомобиля: \(carBrend) \nГод производства: \(productionYear) \nСвободное место в багажнике: \(trunkFreeSpace) \nОбъём багажника: \(trunkVolume)\nСтатус двигателя: \(engineState) \nСтатус окон: \(windowsState) \nПробег километров: \(km)")
+        
+    }
+    // инициализация внутри структуры
+    init (productionYear: Int, km: Int){
+        self.productionYear = productionYear
+        self.km = Double(km)
+        self.carBrend = .Ford
+        self.trunkVolume = .big
+        self.trunkFreeSpace = .full
+        self.engineState = .started
+        self.windowsState = .closed
+    }
+}
+//инициализация
+var car1 = TrunckCar(productionYear: 2018, km: 1250)
+
+var car2 = SportCar(carBrend: .Ford, productionYear: 2018, trunkVolume: .small, engineState: .started, trunkFreeSpace: .halffilled, windowsState: .closed, km: 1235)
+
+// действия 
+car2.emptySpace(.putting)
+car2.emptySpace(.emptying)
+car1.emptySpace(.emptying)
+car1.emptySpace(.putting)
+car1.emptySpace(.halfemptying)
+car1.km = 2710
+car2.km = 3450
+car1.closeWindow()
+car2.closeWindow()
+car1.starEngine()
+car2.starEngine()
+car1.printCarStates()
+car2.printCarStates()
+print(TruncFreeSpace.empty.rawValue)
+
+// getter setter
+struct Temperature {
+    var celcius : Double
+    var fahrenheit : Double{
+        get {
+            return round(celcius * 1.8 + 32)
+        }
+        set{
+            celcius = round((newValue - 32) / 1.8)
+        }
+    }
+    func printOutsideTemperature(){
+        print("\nТемпература на улице по фаренгейту:  \(outsideTemperature.fahrenheit) \nТемпература на улице по цельсию: \(outsideTemperature.celcius)")
+    }
+}
+var outsideTemperature = Temperature(celcius: 35)
+outsideTemperature.printOutsideTemperature()
+outsideTemperature.celcius =  -24
+outsideTemperature.printOutsideTemperature()
+outsideTemperature.fahrenheit = 10
+outsideTemperature.printOutsideTemperature()
+
+
+
+
+
+
+
+
+
+    
+
+
+

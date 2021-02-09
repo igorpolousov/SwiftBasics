@@ -1,0 +1,157 @@
+/*
+ 1. Описать класс Car c общими свойствами автомобилей и пустым методом действия по аналогии с прошлым заданием.
+
+2. Описать пару его наследников trunkCar и sportСar. Подумать, какими отличительными свойствами обладают эти автомобили. Описать в каждом наследнике специфичные для него свойства.
+
+3. Взять из прошлого урока enum с действиями над автомобилем. Подумать, какие особенные действия имеет trunkCar, а какие – sportCar. Добавить эти действия в перечисление.
+
+4. В каждом подклассе переопределить метод действия с автомобилем в соответствии с его классом.
+
+5. Создать несколько объектов каждого класса. Применить к ним различные действия.
+
+6. Вывести значения свойств экземпляров в консоль.
+ */
+// марка автомобиля
+enum CarBrend{
+    case Porsche
+    case BMW
+    case Volvo
+    case Ford
+}
+// складная крыша для SportCar Class
+enum RoofState {
+    case opened
+    case closed
+}
+// объём багажника
+enum TrunkVolume : Int{
+    case big = 1000
+    case middle = 500
+    case small = 150
+}
+// статус двигателя
+enum EngineStatus{
+    case Started
+    case Stopped
+}
+// состояние окон
+enum WindowsStatus{
+    case Opened
+    case Closed
+}
+// свободное место в багажнике
+enum TrunkFullfilment{
+    case full
+    case halfempty
+    case empty
+}
+// максимальная скорость для SportCar Class
+enum MaxSpeed : Int {
+    case maxSpeedLimited = 200
+    case maxSpeed = 300
+}
+// Class Car
+class Car{
+    let carBrend : CarBrend
+    let productionYear : Int
+    let trunkVolume: TrunkVolume.RawValue
+    var engineStatus : EngineStatus
+    var windowsStatus : WindowsStatus
+    var trunkFullfilment : TrunkFullfilment
+    // инициализация класса Car
+    init(carBrend: CarBrend, productionYear: Int, trunkVolume: TrunkVolume, engineStatus: EngineStatus, windowsStatus: WindowsStatus, trunkFullfilment: TrunkFullfilment){
+        self.carBrend = carBrend
+        self.productionYear = 2018
+        self.trunkVolume = trunkVolume.rawValue
+        self.engineStatus = engineStatus
+        self.windowsStatus = windowsStatus
+        self.trunkFullfilment = trunkFullfilment
+    }
+    func printCarStatus(){
+        print("""
+               \nМарка автомобиля: \(carBrend)
+               Год выпуска: \(productionYear)
+               Объём багажника: \(trunkVolume)
+               Статус двигателя: \(engineStatus)
+               Статус окон: \(windowsStatus)
+               Свободный объём багажника: \(trunkFullfilment)
+               """)
+    }
+}
+
+// Class TrukCar subclass to class Car
+// особенность класса TrunkCar - погрузчик
+enum Crane: String {
+    case yes = "На грузовике есть кран погрузчик"
+    case no = "На грузовике нет погрузчика"
+}
+
+class TrunkCar : Car {
+    var craneOption : Crane.RawValue
+    init(carBrend: CarBrend, productionYear: Int, trunkVolume: TrunkVolume, engineStatus: EngineStatus, windowsStatus: WindowsStatus, trunkFullfilment: TrunkFullfilment, craneOption: Crane){
+        self.craneOption = craneOption.rawValue
+        super.init(carBrend: carBrend, productionYear: productionYear, trunkVolume: trunkVolume, engineStatus: engineStatus, windowsStatus: windowsStatus, trunkFullfilment: trunkFullfilment)
+    }
+    // функция выбора погрузчика на грузовике
+    func changeCraneOption(_ choice:Crane){
+        switch choice {
+        case .yes:
+            craneOption = Crane.yes.rawValue
+        case .no:
+            craneOption = Crane.no.rawValue
+        }
+        
+    }
+    override func printCarStatus() {
+        print("""
+               \nМарка автомобиля: \(carBrend)
+               Год выпуска: \(productionYear)
+               Объём багажника: \(trunkVolume)
+               Статус двигателя: \(engineStatus)
+               Статус окон: \(windowsStatus)
+               Свободный объём багажника: \(trunkFullfilment)
+               Наличие автопогрузчика на грузовике: \(craneOption)
+               """)
+    }
+}
+
+// SportCar Class
+class SportCar : Car {
+    var maxSpeed : Int {
+        get {
+            return roofState == RoofState.closed ? MaxSpeed.maxSpeed.rawValue : MaxSpeed.maxSpeedLimited.rawValue; 
+        }
+    }
+    var roofState : RoofState
+    init(carBrend: CarBrend, productionYear: Int, trunkVolume: TrunkVolume, engineStatus: EngineStatus, windowsStatus: WindowsStatus, roofState: RoofState, trunkFullfilment: TrunkFullfilment, maxSpeed: MaxSpeed ){
+        var maxSpeed = maxSpeed
+        self.roofState = roofState
+        super.init(carBrend: carBrend, productionYear: productionYear, trunkVolume: trunkVolume, engineStatus: engineStatus, windowsStatus: windowsStatus, trunkFullfilment: trunkFullfilment)
+    }
+    override func printCarStatus() {
+        print("""
+               \nМарка автомобиля: \(carBrend)
+               Год выпуска: \(productionYear)
+               Объём багажника: \(trunkVolume)
+               Статус двигателя: \(engineStatus)
+               Статус окон: \(windowsStatus)
+               Свободный объём багажника: \(trunkFullfilment)
+               Максимальная скорость: \(maxSpeed)
+               Сладная крыша: \(roofState)
+               """)
+    }
+}
+let sportCar = SportCar(carBrend: .Porsche, productionYear: 2020, trunkVolume: .small, engineStatus: .Started, windowsStatus: .Opened, roofState: .closed, trunkFullfilment: .halfempty, maxSpeed: .maxSpeed)
+sportCar.roofState = RoofState.opened
+sportCar.printCarStatus()
+
+let sportCar1 = SportCar(carBrend: .BMW, productionYear: 2030, trunkVolume: .small, engineStatus: .Stopped, windowsStatus: .Opened, roofState: .closed, trunkFullfilment: .empty, maxSpeed: .maxSpeed)
+sportCar1.printCarStatus()
+
+let trunkCar = TrunkCar(carBrend: .Volvo, productionYear: 2020, trunkVolume: .big, engineStatus: .Started, windowsStatus: .Opened, trunkFullfilment: .empty, craneOption: .yes)
+trunkCar.printCarStatus()
+
+let trunkCar1 = TrunkCar(carBrend: .BMW, productionYear: 2019, trunkVolume: .middle, engineStatus: .Started, windowsStatus: .Closed, trunkFullfilment: .halfempty, craneOption: .no)
+trunkCar1.printCarStatus()
+
+
